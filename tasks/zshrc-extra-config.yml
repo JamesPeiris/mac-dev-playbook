@@ -1,0 +1,13 @@
+---
+- name: Add ZSH config to oh-my-zsh managed .zshrc
+  blockinfile:
+    create: yes
+    dest: /tmp/fire.txt
+    block: | 
+      i dont care
+      la la la
+      test
+    # block: "{{ lookup('file', '~/.zshrc-extra') }}"
+    # path: "~/.zshrc"
+
+    # WHY DOESNT THIS POS WORK!?

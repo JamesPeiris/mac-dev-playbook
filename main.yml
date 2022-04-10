@@ -24,6 +24,11 @@
     - role: geerlingguy.mac.dock
       when: configure_dock
       tags: ['dock']
+    - role: gantsign.oh-my-zsh
+      when: configure_ohmyzsh
+      tags: ['oh-my-zsh']
+      users:
+        - username: "{{ username }}"
 
   tasks:
     - import_tasks: tasks/sudoers.yml
@@ -45,10 +50,18 @@
       when: configure_sublime
       tags: ['sublime-text']
 
-    - block:
-        - name: Run configured post-provision ansible task files.
-          include_tasks: "{{ outer_item }}"
-          loop_control:
-            loop_var: outer_item
-          with_fileglob: "{{ post_provision_tasks|default(omit) }}"
+    # TODO: BLOCKINFILE TASK NOT WORKING WHEN PULLED IN VIA THIS
+    #       WORKS FINE AS A SEPARATE TOP-LEVEL TASK
+    - name: Run configured post-provision ansible task files.
+      include_tasks: "{{ outer_item }}"
+      loop_control:
+        loop_var: outer_item
+      with_fileglob: "{{ post_provision_tasks|default(omit) }}"
+      tags: ['post']
+    
+    # WORKS FINE LIKE THIS THOUGH
+    - name: Add ZSH config to oh-my-zsh managed .zshrc
+      blockinfile:
+        path: ~/.zshrc
+        block: "{{ lookup('file', '~/.zshrc-extra') }}"
       tags: ['post']
