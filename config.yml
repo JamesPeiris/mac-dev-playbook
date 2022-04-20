@@ -1,0 +1,118 @@
+---
+
+username: jamespeiris
+configure_ohmyzsh: true
+configure_terminal: false
+
+# TODO: Make your own public dotfiles repo and point to that here
+
+dotfiles_repo: https://github.com/JamesPeiris/dotfiles
+dotfiles_repo_accept_hostkey: true
+dotfiles_repo_local_destination: ~/Development/GitHub/dotfiles
+dotfiles_files:
+  - .aliases
+  - .osx
+  - .osx-audio
+  - .osx-behavioural
+  - .osx-system
+  - .osx-visual
+  - .zshrc-extra
+  - com.googlecode.iterm2.plist
+
+homebrew_installed_packages:
+  - go
+  - sqlite
+  - mcrypt
+  - nmap
+  - nvm
+  - pv
+  - wget
+  - wrk
+  - zsh-history-substring-search
+  - tfenv
+  - wireshark
+  - yq
+  - tldr
+  - flux             # Only after xcode installed via mac app store below
+  # - minikube       # Requires Hyperkit for Docker license workaround, which isn't supported on M1
+  # - docker         # Using nerdctl + aliasing to docker (installed with Rancher)
+  # - docker-compose # Installed via Rancher
+  - dua-cli
+  - stow
+  - gh
+  - vault
+  # - helm    # Installed via Rancher
+  # - kubectl # Installed via Rancher
+  - kubectx
+  - fzf
+  - k9s
+  - shellcheck
+  - watch
+  - jq
+  - exa
+  - yamllint
+  - ripgrep
+  # - aws # Not available on brew!?
+  - kind
+  - dust
+  - duf
+  - bottom
+  # - glances # Not at all performant.
+  - gtop
+  - hyperfine
+  - gping
+  - procs
+  - curlie
+  - dog
+  - git-delta
+  - bash
+  # - limactl  # Installed with rancher (cask)
+  # - lima     # Installed with rancher (cask)
+  # - nerdctl  # Install via brew not yet supported - use limactl + lima CLI tools per the nerdctl README
+  # - dyff     # Not yet supported on Apple Silicon
+  # - ansible  # Installed via Pip
+  # - hyperkit # Not yet supported on Apple Silicon
+  # - openssl  # Installed on Mac already - remove and reinstall via brew?
+  # - git      # Installed on Mac already - remove and reinstall via brew?
+
+homebrew_cask_apps:
+  - chromedriver
+  - firefox
+  - google-chrome
+  - fl-studio
+  - iterm2
+  - fabfilter-pro-q
+  - vlc
+  - spotify
+  - visual-studio-code
+  - postman
+  - audacity
+  - soundtoys
+  - loopback
+  - little-snitch
+  - obsidian
+  - skype
+  - zoom
+  # - font-hack-nerd-font
+  - microsoft-teams
+  - lastpass
+  - rancher
+  # - virtualbox # (wrong architecture)
+  # - vagrant    # (same?)
+
+mas_installed_apps:
+  - { id: 441258766,  name: "Magnet" }
+  - { id: 668208984,  name: "Giphy Capture" }
+  - { id: 1141323850, name: "Complete Anatomy 2022" }
+  - { id: 497799835,  name: "XCode" }
+
+# TODO: Work out how to log in automatically to services
+# - Little Snitch
+# - Skype
+# - Zoom
+# - Soundtoys
+# - Spotify
+# - Fabfilter Pro Q
+
+post_provision_tasks:
+  - "tasks/zshrc-extra-config.yml"
