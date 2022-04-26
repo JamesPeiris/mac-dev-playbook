@@ -58,7 +58,7 @@ homebrew_installed_packages:
   - duf
   - bottom
   # - glances # Not at all performant.
-  - gtop
+  # - gtop    # Not as good as btm (bottom)
   - hyperfine
   - gping
   - procs
