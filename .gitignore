@@ -1,5 +1,5 @@
 *.vagrant
-.DS_Store
+**/.DS_Store
 *.retry
-roles*
+**/roles*
 # config.yml # I want mine checked in for now!

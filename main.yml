@@ -5,32 +5,52 @@
     - default.config.yml
 
   pre_tasks:
-    - name: Include playbook configuration.
+    - name: Include playbook configuration
       include_vars: "{{ item }}"
       with_fileglob:
         - "{{ playbook_dir }}/config.yml"
-      tags: ['always']
+      tags:
+        - always
 
   roles:
     - role: elliotweiser.osx-command-line-tools
     - role: geerlingguy.mac.homebrew
-      tags: ['homebrew']
+      tags:
+        - homebrew
     - role: geerlingguy.dotfiles
       when: configure_dotfiles
-      tags: ['dotfiles']
+      tags:
+        - dotfiles
     - role: geerlingguy.mac.mas
       when: mas_installed_apps or mas_installed_app_ids
-      tags: ['mas']
+      tags:
+        - mas
     - role: geerlingguy.mac.dock
       when: configure_dock
-      tags: ['dock']
+      tags:
+        - dock
     - role: gantsign.oh-my-zsh
       when: configure_ohmyzsh
-      tags: ['oh-my-zsh']
+      tags:
+        - oh-my-zsh
       users:
         - username: "{{ username }}"
 
   tasks:
+    - name: nvm-download
+      shell: >
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+      args:
+        creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+      tags: ['nvm']
+
+    - name: nvm-init
+      shell: >
+        chmod +x {{ ansible_env.HOME }}/.nvm/nvm.sh
+      tags: ['nvm']
+
+# ###################################################################### #
+
     - import_tasks: tasks/sudoers.yml
       when: configure_sudoers
       tags: ['sudoers']
@@ -46,9 +66,7 @@
     - import_tasks: tasks/extra-packages.yml
       tags: ['extra-packages']
 
-    - import_tasks: tasks/sublime-text.yml
-      when: configure_sublime
-      tags: ['sublime-text']
+# ###################################################################### #
 
     # TODO: BLOCKINFILE TASK NOT WORKING WHEN PULLED IN VIA THIS
     #       WORKS FINE AS A SEPARATE TOP-LEVEL TASK
@@ -58,7 +76,7 @@
         loop_var: outer_item
       with_fileglob: "{{ post_provision_tasks|default(omit) }}"
       tags: ['post']
-    
+
     # WORKS FINE LIKE THIS THOUGH
     - name: Add ZSH config to oh-my-zsh managed .zshrc
       blockinfile:

@@ -1,3 +1,5 @@
+# TODO: Rename to config.default.yaml to colocate with config.yaml
+
 ---
 
 username: jamespeiris
@@ -22,10 +24,9 @@ dotfiles_files:
 homebrew_installed_packages:
   - go
   - sqlite
+  - pv
   - mcrypt
   - nmap
-  - nvm
-  - pv
   - wget
   - wrk
   - zsh-history-substring-search
@@ -41,6 +42,7 @@ homebrew_installed_packages:
   - stow
   - gh
   - vault
+  # - nvm # Installed in main.yaml ansible script (TODO: remember why - was it ohmyzsh related?
   # - helm    # Installed via Rancher
   # - kubectl # Installed via Rancher
   - kubectx
@@ -66,6 +68,7 @@ homebrew_installed_packages:
   - dog
   - git-delta
   - bash
+  - git  # Already installed on Mac but this will inevitably be more up-to-date
   # - limactl  # Installed with rancher (cask)
   # - lima     # Installed with rancher (cask)
   # - nerdctl  # Install via brew not yet supported - use limactl + lima CLI tools per the nerdctl README
@@ -73,7 +76,6 @@ homebrew_installed_packages:
   # - ansible  # Installed via Pip
   # - hyperkit # Not yet supported on Apple Silicon
   # - openssl  # Installed on Mac already - remove and reinstall via brew?
-  # - git      # Installed on Mac already - remove and reinstall via brew?
 
 homebrew_cask_apps:
   - chromedriver
@@ -93,26 +95,21 @@ homebrew_cask_apps:
   - obsidian
   - skype
   - zoom
-  # - font-hack-nerd-font
   - microsoft-teams
   - lastpass
   - rancher
+  # - font-hack-nerd-font
   # - virtualbox # (wrong architecture)
-  # - vagrant    # (same?)
 
 mas_installed_apps:
-  - { id: 441258766,  name: "Magnet" }
-  - { id: 668208984,  name: "Giphy Capture" }
-  - { id: 1141323850, name: "Complete Anatomy 2022" }
-  - { id: 497799835,  name: "XCode" }
-
-# TODO: Work out how to log in automatically to services
-# - Little Snitch
-# - Skype
-# - Zoom
-# - Soundtoys
-# - Spotify
-# - Fabfilter Pro Q
+  - id: 441258766
+    name: "Magnet"
+  - id: 668208984
+    name: "Giphy Capture"
+  - id: 1141323850
+    name: "Complete Anatomy 2022"
+  - id: 497799835
+    name: "XCode"
 
 post_provision_tasks:
   - "tasks/zshrc-extra-config.yml"
