@@ -56,35 +56,19 @@ You can override any of the defaults configured in `config.defaults.yml` by crea
 
 ```yaml
 homebrew_installed_packages:
-  - cowsay
-  - git
   - go
+  - git
 
 mas_installed_apps:
   - { id: 443987910, name: "1Password" }
-  - { id: 498486288, name: "Quick Resizer" }
-  - { id: 557168941, name: "Tweetbot" }
   - { id: 497799835, name: "Xcode" }
 
-composer_packages:
-  - name: hirak/prestissimo
-  - name: drush/drush
-    version: '^8.1'
-
-gem_packages:
-  - name: bundler
-    state: latest
-
-npm_packages:
-  - name: webpack
-
-pip_packages:
-  - name: mkdocs
-
 configure_dock: true
+
 dockitems_remove:
   - Launchpad
   - TV
+
 dockitems_persist:
   - name: "Sublime Text"
     path: "/Applications/Sublime Text.app/"
@@ -115,3 +99,19 @@ It's my hope that I can get the rest of these things wrapped up into Ansible pla
 ## Prior Art
 
 This project builds on the work by [Jeff Geerling](https://www.jeffgeerling.com/), specifically the [Mac Development Ansible Playbook](https://github.com/geerlingguy/mac-dev-playbook).
+
+## TODO
+
+- Install vscode plugins automatically
+  - Go
+  - Docker
+  - GitLens
+  - HashiCorp Terraform
+  - Graphviz Interactive Preview
+  - Markdown All in One
+  - Markdown Preview Github Styling
+  - Quokka.js
+  - Makefile Tools
+  - vscode-icons (TODO: confirm if this requires nerdfonts to be installed first)
+
+- Set vscode default config
