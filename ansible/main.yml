@@ -2,9 +2,10 @@
 - hosts: all
 
   vars_files:
-    - default.config.yml
+    - config.default.yml
 
   pre_tasks:
+
     - name: Include playbook configuration
       include_vars: "{{ item }}"
       with_fileglob:
@@ -12,23 +13,34 @@
       tags:
         - always
 
+    # - name: rosetta install
+    #   shell: |
+    #     sudo softwareupdate --install-rosetta # TODO: Is sudo required if running ansible with -K ?
+    #   tags: ['rosetta']
+
   roles:
+
     - role: elliotweiser.osx-command-line-tools
+
     - role: geerlingguy.mac.homebrew
       tags:
         - homebrew
+
     - role: geerlingguy.dotfiles
       when: configure_dotfiles
       tags:
         - dotfiles
+
     - role: geerlingguy.mac.mas
       when: mas_installed_apps or mas_installed_app_ids
       tags:
         - mas
+
     - role: geerlingguy.mac.dock
       when: configure_dock
       tags:
         - dock
+
     - role: gantsign.oh-my-zsh
       when: configure_ohmyzsh
       tags:
@@ -36,46 +48,42 @@
       users:
         - username: "{{ username }}"
 
-  tasks:
-    - name: nvm-download
-      shell: >
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-      args:
-        creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
-      tags: ['nvm']
-
-    - name: nvm-init
-      shell: >
-        chmod +x {{ ansible_env.HOME }}/.nvm/nvm.sh
-      tags: ['nvm']
-
 # ###################################################################### #
+
+  tasks:
+    # TODO: Can these be deprecated in favour of "asdf" interpreter manager?
+    #       Try tool out first!
+
+    # - name: nvm-download
+    #   shell: |
+    #     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+    #   args:
+    #     creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+    #   tags: ['nvm']
+
+    # - name: nvm-init
+    #   shell: |
+    #     chmod +x {{ ansible_env.HOME }}/.nvm/nvm.sh
+    #   tags: ['nvm']
 
     - import_tasks: tasks/sudoers.yml
       when: configure_sudoers
       tags: ['sudoers']
 
-    - import_tasks: tasks/terminal.yml
-      when: configure_terminal
-      tags: ['terminal']
-
     - import_tasks: tasks/osx.yml
       when: configure_osx
       tags: ['osx']
 
-    - import_tasks: tasks/extra-packages.yml
-      tags: ['extra-packages']
-
 # ###################################################################### #
 
-    # TODO: BLOCKINFILE TASK NOT WORKING WHEN PULLED IN VIA THIS
-    #       WORKS FINE AS A SEPARATE TOP-LEVEL TASK
-    - name: Run configured post-provision ansible task files.
-      include_tasks: "{{ outer_item }}"
-      loop_control:
-        loop_var: outer_item
-      with_fileglob: "{{ post_provision_tasks|default(omit) }}"
-      tags: ['post']
+    # # TODO: BLOCKINFILE TASK NOT WORKING WHEN PULLED IN VIA THIS
+    # #       WORKS FINE AS A SEPARATE TOP-LEVEL TASK
+    # - name: Run configured post-provision ansible task files.
+    #   include_tasks: "{{ outer_item }}"
+    #   loop_control:
+    #     loop_var: outer_item
+    #   with_fileglob: "{{ post_provision_tasks|default(omit) }}"
+    #   tags: ['post']
 
     # WORKS FINE LIKE THIS THOUGH
     - name: Add ZSH config to oh-my-zsh managed .zshrc
@@ -83,3 +91,16 @@
         path: ~/.zshrc
         block: "{{ lookup('file', '~/.zshrc-extra') }}"
       tags: ['post']
+
+# ###################################################################### #
+
+    # TODO: See if asdf ansible package exists
+    #       as the following works but is not idempodent.
+
+    - name: Add language runtime management plugins
+      shell: |
+        asdf plugin add golang || true
+        asdf plugin add nodejs || true
+        asdf plugin add rust || true
+        asdf plugin add python || true
+      tags: ['asdf']

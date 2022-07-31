@@ -1,0 +1,197 @@
+---
+
+osx_script: "~/.osx"
+username: jamespeiris
+sudoers_custom_config: ''
+
+# -------------------------------------------------------------------------------------------------------------
+
+configure_osx: true
+configure_dock: true
+configure_ohmyzsh: true
+configure_sudoers: true
+configure_dotfiles: true
+
+# -------------------------------------------------------------------------------------------------------------
+
+dotfiles_repo: https://github.com/JamesPeiris/dotfiles
+dotfiles_repo_version: main
+dotfiles_repo_accept_hostkey: true
+dotfiles_repo_local_destination: ~/.dotfiles
+dotfiles_files:
+  - .aliases
+  - .osx
+  - .osx-audio
+  - .osx-behavioural
+  - .osx-system
+  - .osx-visual
+  - .zshrc-extra
+  - com.googlecode.iterm2.plist
+
+# -------------------------------------------------------------------------------------------------------------
+
+homebrew_installed_packages:
+
+  # =======================================================================================================
+  #    Programming Languages / Management
+  # =======================================================================================================
+  - asdf       # TODO: Test whether this removes the need for installing nvm
+  - git        # [1]
+  - git-delta
+  - gh
+  - go
+  - tfenv
+  # ❎ - nvm   # Installed in main.yaml ansible script (TODO: remember why - was it ohmyzsh related?)
+
+  # =======================================================================================================
+  #    Networking
+  # =======================================================================================================
+  - curl # [1]
+  - curlie
+  - dog
+  - gping
+  - ipcalc
+  - nmap
+  - wireshark
+  - whatmask
+
+  # =======================================================================================================
+  #    Data search / display / modify
+  # =======================================================================================================
+  - bat
+  - exa
+  - fzf
+  - hexyl
+  - homeport/tap/dyff
+  - jq
+  - ripgrep
+  - yq
+
+  # =======================================================================================================
+  #    DevOps
+  # =======================================================================================================
+  - k9s
+  - kind
+  - kubectx
+  - vault
+  # ❎ - aws            # Not available on brew
+  # ❎ - ansible        # Installed via brew manually via cli
+  # ❎ - docker         # Installed with rancher (cask) - "nerdctl" aliased to "docker"
+  # ❎ - docker-compose # Installed with rancher (cask)
+  # ❎ - helm           # Installed with rancher (cask)
+  # ❎ - lima           # Installed with rancher (cask)
+  # ❎ - limactl        # Installed with rancher (cask)
+  # ❎ - kubectl        # Installed with rancher (cask)
+  # ❎ - nerdctl        # Installed with rancher (cask)
+  # ❎ - minikube       # For Docker Desktop license workaround, requires Hyperkit which isn't supported on M1
+  # ❎ - hyperkit       # Not yet supported on Apple Silicon
+
+  # =======================================================================================================
+  #    System
+  # =======================================================================================================
+  - bottom
+  - duf
+  - dust
+  - ncdu
+  - openssl         # [1]
+  - procs
+  - stow
+  # ❎ - dua-cli    # Not quite as good as ncdu
+  # ❎ - glances    # Not at all performant.
+  # ❎ - gtop       # Not as good as btm (bottom)
+
+  # =======================================================================================================
+  #    Terminal Setup
+  # =======================================================================================================
+  - bash # [1]
+  - romkatv/powerlevel10k/powerlevel10k
+  - tldr
+  - watch
+  - zsh-history-substring-search
+
+  # =======================================================================================================
+  #    Linters
+  # =======================================================================================================
+  - shellcheck
+  - yamllint
+
+  # =======================================================================================================
+  #    Benchmarking
+  # =======================================================================================================
+  - hyperfine
+  - wrk
+
+  # [1] Pre-installed on Mac, but brew install will inevitably be more up-to-date
+
+# -------------------------------------------------------------------------------------------------------------
+
+homebrew_cask_apps:
+
+  # Web
+  - firefox
+
+  # Security / Privacy
+  - lastpass
+  - little-snitch
+
+  # Music / Media
+  - fl-studio
+  - fabfilter-pro-q
+  - spotify
+  - audacity
+  - soundtoys
+  - loopback
+  - vlc
+
+  # Productivity
+  - obsidian
+
+  # Communication
+  - skype
+  - zoom
+  - microsoft-teams
+
+  # Development
+  - iterm2
+  - postman
+  - rancher
+  - visual-studio-code
+
+  # Health
+  - flux
+
+  # System
+  - homebrew/cask-fonts/font-hack-nerd-font
+
+# -------------------------------------------------------------------------------------------------------------
+
+mas_installed_apps:
+
+  # =======================================================================================================
+  #    Workflow
+  # =======================================================================================================
+
+  - id: 441258766
+    name: "Magnet"
+
+  - id: 668208984
+    name: "Giphy Capture"
+
+  # =======================================================================================================
+  #    Education
+  # =======================================================================================================
+
+  - id: 1141323850
+    name: "Complete Anatomy 2022"
+
+  # =======================================================================================================
+  #    Development
+  # =======================================================================================================
+
+  - id: 497799835
+    name: "XCode"
+
+# -------------------------------------------------------------------------------------------------------------
+
+post_provision_tasks:
+  - "tasks/zshrc-extra-config.yml"
