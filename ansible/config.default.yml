@@ -129,6 +129,7 @@ homebrew_cask_apps:
 
   # Web
   - firefox
+  - google-chrome
 
   # Security / Privacy
   - lastpass
@@ -142,6 +143,7 @@ homebrew_cask_apps:
   - soundtoys
   - loopback
   - vlc
+  - ilok-license-manager
 
   # Productivity
   - obsidian
@@ -159,6 +161,9 @@ homebrew_cask_apps:
 
   # Health
   - flux
+
+  # Leisure
+  - steam
 
   # System
   - homebrew/cask-fonts/font-hack-nerd-font
